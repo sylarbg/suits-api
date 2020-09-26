@@ -11,6 +11,20 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    const TYPE_CITIZEN = 1;
+    const TYPE_LAWYER = 2;
+
+    public static $TYPES_LOOKUP = [
+        self::TYPE_CITIZEN => [
+            'id' => self::TYPE_CITIZEN,
+            'name' => "Citizen"
+        ],
+        self::TYPE_LAWYER => [
+            'id' => self::TYPE_LAWYER,
+            'name' => "Lawyer"
+        ]
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -20,6 +34,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'type',
     ];
 
     /**
@@ -40,4 +55,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getTypeAttribute($value)
+    {
+        return self::$TYPES_LOOKUP[$value];
+    }
 }
