@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use App\Http\Filters\Filters;
+use App\Models\Support\Searchable;
 
 class Lawyer extends User
 {
+    use Searchable;
+
     protected $table = 'users';
 
     public static function boot()
@@ -15,10 +18,5 @@ class Lawyer extends User
         static::addGlobalScope(function ($query) {
             $query->where('type', self::TYPE_LAWYER);
         });
-    }
-
-    public function scopeFilter($query, Filters $filters)
-    {
-        return $filters->apply($query);
     }
 }

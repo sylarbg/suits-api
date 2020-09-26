@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Support\Ownable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -56,8 +57,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getTypeAttribute($value)
+    public function getTypeAsObjectAttribute($value)
     {
-        return self::$TYPES_LOOKUP[$value];
+        return self::$TYPES_LOOKUP[$this->type];
+    }
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class, $this->type == self::TYPE_CITIZEN ? 'citizen_id': 'lawyer_id');
     }
 }

@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\Support\Ownable;
+use App\Models\Support\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use App\Domain\Appointment\BookingBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Carbon;
 
 class Appointment extends Model
 {
+    use Searchable, Ownable;
+
     const PENDING_STATUS  = 1;
     const APPROVED_STATUS = 2;
     const REJECTED_STATUS = 3;
@@ -18,6 +23,9 @@ class Appointment extends Model
         self::REJECTED_STATUS => 'Rejected',
     ];
 
+    protected $casts = [
+        'scheduled_for' => 'datetime',
+    ];
 
     protected $guarded = [];
 
@@ -41,5 +49,18 @@ class Appointment extends Model
     public function getStatusNameAttribute()
     {
         return self::$STATUS_LOOKUP[$this->status];
+    }
+
+    public function setScheduledForAttribute($value)
+    {
+        $this->attributes['scheduled_for'] = Carbon::parse($value)->setTimezone(config('app.timezone'));
+    }
+
+    public function reschedule($datetime)
+    {
+        $this->update([
+            'scheduled_for' => $datetime,
+            'status' => self::PENDING_STATUS
+        ]);
     }
 }

@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Appointment;
+use App\Models\Lawyer;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -25,6 +28,23 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('reschedule', function (User $user, Appointment $appointment, Lawyer $lawyer) {
+            if (!$appointment->isOwnedBy($lawyer, 'lawyer_id')) {
+                return false;
+            }
+
+            if ($appointment->isOwnedBy($user) && $appointment->status == Appointment::REJECTED_STATUS) {
+                return true;
+            }
+            return false;
+        });
+
+        Gate::define('delete', function (User $user, Appointment $appointment, Lawyer $lawyer) {
+            if (!$appointment->isOwnedBy($lawyer, 'lawyer_id')) {
+                return false;
+            }
+
+            return $user->id == $lawyer->id;
+        });
     }
 }
