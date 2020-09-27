@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
+use App\ConvertToServerTimeZone;
 use App\Models\Support\Ownable;
 use App\Models\Support\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use App\Domain\Appointment\BookingBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Carbon;
 
 class Appointment extends Model
 {
@@ -16,11 +16,13 @@ class Appointment extends Model
     const PENDING_STATUS  = 1;
     const APPROVED_STATUS = 2;
     const REJECTED_STATUS = 3;
+    const CONFIRMED_STATUS = 4;
 
     public static $STATUS_LOOKUP = [
         self::PENDING_STATUS  => 'Pending',
         self::APPROVED_STATUS => 'Approved',
         self::REJECTED_STATUS => 'Rejected',
+        self::CONFIRMED_STATUS => 'Confirmed',
     ];
 
     protected $casts = [
@@ -53,7 +55,7 @@ class Appointment extends Model
 
     public function setScheduledForAttribute($value)
     {
-        $this->attributes['scheduled_for'] = Carbon::parse($value)->setTimezone(config('app.timezone'));
+        $this->attributes['scheduled_for'] = ConvertToServerTimeZone::convert($value);
     }
 
     public function reschedule($datetime)

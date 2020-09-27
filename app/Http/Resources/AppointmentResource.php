@@ -17,11 +17,13 @@ class AppointmentResource extends JsonResource
         return [
             'id' => $this->id,
             'lawyer'     => new UserResource($this->whenLoaded('lawyer')),
+            'citizen'     => new UserResource($this->whenLoaded('citizen')),
             'status'     => [
                 'id' => $this->status,
                 'name' => $this->status_name,
             ],
             'scheduled'  => $this->scheduled_for->format('d.m.Y H:i'),
+            'scheduled_raw'  => $this->scheduled_for,
         ];
     }
 }

@@ -9,6 +9,16 @@ class AppointmentsController extends Controller
 {
     public function index(AppointmentFilter $filter)
     {
-        return AppointmentResource::collection(auth()->user()->appointments()->filter($filter)->with('lawyer')->paginate(2));
+        return AppointmentResource::collection(auth()->user()->appointments()->filter($filter)->with(['lawyer', 'citizen'])->paginate(10));
+    }
+
+    public function store()
+    {
+        /**
+         * as user
+         *
+         * lawyer_id
+         * user_id ...?
+         */
     }
 }

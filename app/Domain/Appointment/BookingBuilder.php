@@ -10,12 +10,13 @@ class BookingBuilder
 {
     private $citizen = null;
     private $lawyer = null;
+    private $status = Appointment::PENDING_STATUS;
 
     private function __construct()
     {
     }
 
-    public static function bookForCitizen(User $user)
+    public static function bookForCitizen($user)
     {
         $instance = new self();
         $instance->citizen = $user;
@@ -26,6 +27,14 @@ class BookingBuilder
     public function withLawyer(Lawyer $lawyer)
     {
         $this->lawyer = $lawyer;
+        return $this;
+    }
+
+    public function withStatus($status)
+    {
+        if ($status) {
+            $this->status = $status;
+        }
         return $this;
     }
 
@@ -41,7 +50,7 @@ class BookingBuilder
             'lawyer_id' => $this->lawyer->id,
             'citizen_id' => $this->citizen->id,
             'scheduled_for' => $date,
-            'status' => Appointment::PENDING_STATUS,
+            'status' => $this->status,
         ]);
     }
 }

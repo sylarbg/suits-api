@@ -6,6 +6,10 @@ class AppointmentFilter extends Filters
 {
     protected $filters = ['lawyer', 'status'];
 
+    protected $sort = [
+        'scheduled_for'
+    ];
+
     public function lawyer($value)
     {
         return $this->builder->whereHas('lawyer', function ($query) use ($value) {

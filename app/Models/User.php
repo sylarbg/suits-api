@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Support\Ownable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Support\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, Searchable;
 
     const TYPE_CITIZEN = 1;
     const TYPE_LAWYER = 2;
@@ -62,8 +61,13 @@ class User extends Authenticatable
         return self::$TYPES_LOOKUP[$this->type];
     }
 
+    public function isLawyer()
+    {
+        return $this->type == self::TYPE_LAWYER;
+    }
+
     public function appointments()
     {
-        return $this->hasMany(Appointment::class, $this->type == self::TYPE_CITIZEN ? 'citizen_id': 'lawyer_id');
+        return $this->hasMany(Appointment::class, $this->isLawyer() ? 'lawyer_id' : 'citizen_id');
     }
 }

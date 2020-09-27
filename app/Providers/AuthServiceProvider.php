@@ -44,7 +44,21 @@ class AuthServiceProvider extends ServiceProvider
                 return false;
             }
 
-            return $user->id == $lawyer->id;
+            return $lawyer->isOwnedBy($user,'id');
+        });
+
+        Gate::define('search-citizen', function (User $user) {
+            return $user->isLawyer();
+        });
+
+        Gate::define('update', function (User $user, Appointment $appointment, Lawyer $lawyer) {
+
+            if (!$appointment->isOwnedBy($lawyer, 'lawyer_id')) {
+                return false;
+            }
+
+
+            return $lawyer->isOwnedBy($user,'id');
         });
     }
 }

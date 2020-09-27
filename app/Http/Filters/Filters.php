@@ -103,7 +103,7 @@ abstract class Filters
 
     protected function order($field, $direction)
     {
-        $this->builder->orderBy('id', $direction);
+        $this->builder->orderBy($field, $direction);
 
         return $this->builder;
     }

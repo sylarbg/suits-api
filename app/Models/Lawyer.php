@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Http\Filters\Filters;
+use App\Models\Support\Ownable;
 use App\Models\Support\Searchable;
 
 class Lawyer extends User
 {
-    use Searchable;
+    use Searchable, Ownable;
 
     protected $table = 'users';
 
