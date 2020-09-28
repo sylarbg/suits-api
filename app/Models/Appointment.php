@@ -11,18 +11,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Appointment extends Model
 {
-    use Searchable, Ownable;
+    use Searchable, Ownable, HasFactory;
 
     const PENDING_STATUS  = 1;
     const APPROVED_STATUS = 2;
     const REJECTED_STATUS = 3;
-    const CONFIRMED_STATUS = 4;
+
 
     public static $STATUS_LOOKUP = [
         self::PENDING_STATUS  => 'Pending',
         self::APPROVED_STATUS => 'Approved',
         self::REJECTED_STATUS => 'Rejected',
-        self::CONFIRMED_STATUS => 'Confirmed',
     ];
 
     protected $casts = [

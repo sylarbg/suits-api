@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateAppointmentRequest;
 use App\Models\Lawyer;
 use App\Models\Appointment;
-use App\Rules\BookingDateIsInFuture;
 use Illuminate\Http\Request;
+use App\Rules\BookingDateIsInFuture;
 use App\Http\Resources\AppointmentResource;
+use App\Http\Requests\CreateAppointmentRequest;
 
 class LawyerAppointmentsController extends Controller
 {

@@ -10,6 +10,6 @@ class LawyersController extends Controller
 {
     public function index(LawyerFilter $filter)
     {
-        return LawyerResource::collection(Lawyer::filter($filter)->paginate(2));
+        return LawyerResource::collection(Lawyer::filter($filter)->paginate(5));
     }
 }

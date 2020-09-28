@@ -12,6 +12,6 @@ class CitizensController extends Controller
 {
     public function index(CitizenFilter $filter)
     {
-        return UserResource::collection(User::filter($filter)->paginate(2));
+        return UserResource::collection(User::filter($filter)->paginate(5));
     }
 }

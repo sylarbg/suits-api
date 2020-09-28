@@ -23,17 +23,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return $request->user();
     });
 
-    Route::post('/lawyers/{lawyer}/appointments', [LawyerAppointmentsController::class, 'store']);
+    Route::post('/lawyers/{lawyer}/appointments', [LawyerAppointmentsController::class, 'store'])->name('appointments.store');
     Route::put('/lawyers/{lawyer}/appointments/{appointment}', [LawyerAppointmentsController::class, 'update']);
     Route::put('/lawyers/{lawyer}/appointments/{appointment}/reschedule', [LawyerAppointmentsController::class, 'reschedule']);
     Route::put('/lawyers/{lawyer}/appointments/{appointment}/confirm', [LawyerAppointmentsController::class, 'confirm']);
 
     Route::delete('/lawyers/{lawyer}/appointments/{appointment}', [LawyerAppointmentsController::class, 'delete']);
 
-    Route::get('/appointments', [AppointmentsController::class, 'index']);
+    Route::get('/appointments', [AppointmentsController::class, 'index'])->name('appointments.index');
     Route::post('/appointments', [AppointmentsController::class, 'index']);
 });
 
-Route::get('/lawyers', [LawyersController::class, 'index']);
-Route::get('/citizens', [CitizensController::class, 'index'])->middleware('can:search-citizen');
+Route::get('/lawyers', [LawyersController::class, 'index'])->name('lawyers.index');
+Route::get('/citizens', [CitizensController::class, 'index'])->middleware('can:search-citizen')->name('citizens.index');
 

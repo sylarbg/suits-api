@@ -4,15 +4,17 @@ namespace App\Http\Filters;
 
 class AppointmentFilter extends Filters
 {
-    protected $filters = ['lawyer', 'status'];
+    protected $filters = ['name', 'status'];
 
     protected $sort = [
         'scheduled_for'
     ];
 
-    public function lawyer($value)
+    public function name($value)
     {
-        return $this->builder->whereHas('lawyer', function ($query) use ($value) {
+        $relation = $this->request->user()->isLawyer() ? 'citizen' : 'lawyer';
+
+        return $this->builder->whereHas($relation, function ($query) use ($value) {
             $query->where('name', 'like', "$value%");
         });
     }
