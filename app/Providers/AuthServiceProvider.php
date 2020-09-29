@@ -28,6 +28,18 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        Gate::define('owns', function (User $authUser, User $citizen, Lawyer $lawyer) {
+                if ($authUser->isLawyer() && $authUser->is($lawyer)) {
+                    return true;
+                }
+
+                if (!$authUser->isLawyer() && $authUser->is($citizen)) {
+                    return true;
+                }
+
+                return false;
+        });
+
         Gate::define('reschedule', function (User $user, Appointment $appointment, Lawyer $lawyer) {
             if (!$appointment->isOwnedBy($lawyer, 'lawyer_id')) {
                 return false;
@@ -56,7 +68,6 @@ class AuthServiceProvider extends ServiceProvider
             if (!$appointment->isOwnedBy($lawyer, 'lawyer_id')) {
                 return false;
             }
-
 
             return $lawyer->isOwnedBy($user,'id');
         });

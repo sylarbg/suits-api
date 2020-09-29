@@ -25,10 +25,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/lawyers/{lawyer}/appointments', [LawyerAppointmentsController::class, 'store'])->name('appointments.store');
     Route::put('/lawyers/{lawyer}/appointments/{appointment}', [LawyerAppointmentsController::class, 'update']);
-    Route::put('/lawyers/{lawyer}/appointments/{appointment}/reschedule', [LawyerAppointmentsController::class, 'reschedule']);
+    Route::put('/lawyers/{lawyer}/appointments/{appointment}/reschedule', [LawyerAppointmentsController::class, 'reschedule'])->name('appointments.reschedule');
     Route::put('/lawyers/{lawyer}/appointments/{appointment}/confirm', [LawyerAppointmentsController::class, 'confirm']);
 
-    Route::delete('/lawyers/{lawyer}/appointments/{appointment}', [LawyerAppointmentsController::class, 'delete']);
+    Route::delete('/lawyers/{lawyer}/appointments/{appointment}', [LawyerAppointmentsController::class, 'delete'])->name('appointments.delete');
 
     Route::get('/appointments', [AppointmentsController::class, 'index'])->name('appointments.index');
     Route::post('/appointments', [AppointmentsController::class, 'index']);

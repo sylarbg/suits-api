@@ -13,15 +13,18 @@ class LawyerAppointmentsController extends Controller
 {
     public function store(Lawyer $lawyer, CreateAppointmentRequest $request)
     {
-        return Appointment::book($request->resolveCitizen())
+        $this->authorize('owns', [$request->resolveCitizen(), $lawyer]);
+
+        $appointment = Appointment::book($request->resolveCitizen())
             ->withLawyer($lawyer)
             ->withStatus($request->get('status'))
             ->send($request->get('datetime'));
+
+        return new AppointmentResource($appointment->load(['citizen', 'lawyer']));
     }
 
     public function update(Lawyer $lawyer, Appointment $appointment, CreateAppointmentRequest $request)
     {
-
         $this->authorize('update', [$appointment, $lawyer]);
 
         $appointment->update([
@@ -44,7 +47,7 @@ class LawyerAppointmentsController extends Controller
 
         $this->authorize('reschedule', [$appointment, $lawyer]);
         $appointment->reschedule($request->get('datetime'));
-        return new AppointmentResource($appointment);
+        return new AppointmentResource($appointment->load(['lawyer', 'citizen']));
     }
 
     public function delete(Lawyer $lawyer, Appointment $appointment)
