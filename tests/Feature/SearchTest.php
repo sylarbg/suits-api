@@ -36,7 +36,6 @@ class SearchTest extends TestCase
 
         $this->actingAs(User::factory()->create());
         $this->get(route('citizens.index'))->assertForbidden();
-
     }
 
     /** @test **/
@@ -53,5 +52,4 @@ class SearchTest extends TestCase
         // Only citizen which name starts with 'Al'
         $this->assertCount(1, $this->getJson(route('citizens.index', ['name' => 'Al']))->json()['data']);
     }
-
 }

@@ -46,7 +46,7 @@ class IsFreeHour implements Rule
     {
         $builder = $this->lawyer->appointments()
             ->where('status', Appointment::APPROVED_STATUS)
-            ->when($this->appointment, function($q) {
+            ->when($this->appointment, function ($q) {
                 $q->where('id', '!=', $this->appointment->id);
             })
             ->where('scheduled_for', $value);

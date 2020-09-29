@@ -76,7 +76,8 @@ class MakeAppointmentsTest extends TestCase
 
         $this->actingAs($lawyerBob);
         $this->makeAppointment(
-            $lawyerMartin->id, [ 'user_id' => $citizen->id,  'datetime' => Carbon::tomorrow()->format('Y-m-d H:i') ]
+            $lawyerMartin->id,
+            ['user_id' => $citizen->id, 'datetime' => Carbon::tomorrow()->format('Y-m-d H:i') ]
         )->assertForbidden();
 
         $this->assertEquals(0, Appointment::count());
@@ -88,7 +89,8 @@ class MakeAppointmentsTest extends TestCase
         $this->actingAs($lawyerBob = Lawyer::factory()->create(['name' => 'Bob']));
 
         $this->makeAppointment(
-            $lawyerBob->id, [ 'user_id' => 999999,  'datetime' => Carbon::tomorrow()->format('Y-m-d H:i') ]
+            $lawyerBob->id,
+            ['user_id' => 999999, 'datetime' => Carbon::tomorrow()->format('Y-m-d H:i')]
         )->assertNotFound();
     }
 

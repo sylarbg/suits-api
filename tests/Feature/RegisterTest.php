@@ -21,9 +21,9 @@ class RegisterTest extends TestCase
     /** @test **/
     public function email_is_required_and_must_be_unique()
     {
-       $this->register([
-           'email' => '',
-       ])->assertJsonValidationErrors('email');
+        $this->register([
+            'email' => '',
+        ])->assertJsonValidationErrors('email');
 
         User::factory()->create(['email' => 'john@example.com']);
 

@@ -68,7 +68,7 @@ class ListAppointmentsTest extends TestCase
         $lawyerBob    = Lawyer::factory()->create(['name' => 'Bob']);
         $lawyerMartin = Lawyer::factory()->create(['name' => 'Martin']);
 
-       $withLawyerBob =  $this->appointmentFactory([
+        $withLawyerBob =  $this->appointmentFactory([
             'citizen_id' => $jane->id,
             'lawyer_id' => $lawyerBob->id,
             'scheduled_for' => now()
