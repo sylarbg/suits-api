@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateAppointmentRequest;
 use App\Models\Lawyer;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class LawyerAppointmentsController extends Controller
         return new AppointmentResource($appointment->load(['citizen', 'lawyer']));
     }
 
-    public function update(Lawyer $lawyer, Appointment $appointment, CreateAppointmentRequest $request)
+    public function update(Lawyer $lawyer, Appointment $appointment, UpdateAppointmentRequest $request)
     {
         $this->authorize('update', [$appointment, $lawyer]);
 
